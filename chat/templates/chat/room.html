@@ -1,21 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Room Page</title>
+	<link rel="stylesheet" href="{% static 'chat/css/room_style1.css' %}"/>
 </head>
 <body>
 <h2>Chats in Room {{room.title}}</h2>
-	<div class="messages">
-		
-	</div>
+<div id="wrapper">
+    <div id="menu">
+        <p class="welcome">Welcome, <b></b></p>
+        <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+        <div style="clear:both"></div>
+    </div>
+     
+    <div id="chatbox"></div>
+     
+    <!-- <form name="message"> -->
+        <input name="usermsg" type="text" id="usermsg" size="63" />
+        <input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+        <!-- <button  name="submitmsg"  id="submitmsg" value="Send" >submit</button> -->
+   <!--  </form> -->
+</div>
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript">
 		socket = new WebSocket("ws://" + window.location.host+window.location.pathname);
 		socket.onmessage = function(e) {
-			var mes = $("<div>"+e.data+"</div><br/>");
-			$(".messages").append(mes);
+			var message = $("<div>"+e.data+"</div><br/>");
+			$("#chatbox").append(message);
 		    //alert(e.data);
 		}
+		$("#submitmsg").on("click",function(){
+			console.log("heyy in click");
+			var msg = $('#usermsg').val();
+			console.log(msg);
+			socket.send(msg);
+		});
 		// socket.onopen = function() {
 		//     socket.send("hello world");
 		// }
