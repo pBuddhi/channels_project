@@ -27,7 +27,9 @@
 	<script type="text/javascript">
 		socket = new WebSocket("ws://" + window.location.host+window.location.pathname);
 		socket.onmessage = function(e) {
-			var message = $("<div>"+e.data+"</div><br/>");
+			var data_dict = JSON.parse(e.data);
+
+			var message = $("<div size=100>"+data_dict["sender"]+": "+data_dict["textMessage"]+"</div><br/>");
 			$("#chatbox").append(message);
 		    //alert(e.data);
 		}

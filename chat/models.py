@@ -9,5 +9,5 @@ class Room(models.Model):
     # Room title
     title = models.CharField(max_length=255)
 
-    def str(self):
+    def __str__(self):
         return self.title
