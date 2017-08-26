@@ -29,7 +29,7 @@
 # def ws_disconnect(message):
 #     Group("chat").discard(message.reply_channel)
 # # @channel_session
-# # def ws_connect(message,room_name):
+# # def ws_connect(message,room_id):
 # # 	print("hhhhhhhhhh")
 # # 	# Add to the chat group
 # # 	message.reply_channel.send({"accept": True})
@@ -38,19 +38,19 @@
 # # 	if b"username" in params:
 # # 		# Set the username in the session
 # # 		message.channel_session["username"] = params[b"username"][0].decode("utf8")
-# # 		# Add the user to the room_name group
-# # 		print("connect ",room_name)
-# # 		Group("chat-%s" % room_name).add(message.reply_channel)
+# # 		# Add the user to the room_id group
+# # 		print("connect ",room_id)
+# # 		Group("chat-%s" % room_id).add(message.reply_channel)
 # # 	else:
 # # 		# Close the connection.
 # # 		message.reply_channel.send({"close": True})
 
 # # # Connected to websocket.receive
 # # @channel_session
-# # def ws_message(message, room_name):
+# # def ws_message(message, room_id):
 # # 	print("ggggg")
-# # 	print("message ",room_name)
-# # 	Group("chat-%s" % room_name).send({
+# # 	print("message ",room_id)
+# # 	Group("chat-%s" % room_id).send({
 # # 		"text": json.dumps({
 # # 			"text": message["text"],
 # # 			"username": message.channel_session["username"],
@@ -59,10 +59,10 @@
 
 # # # Connected to websocket.disconnect
 # # @channel_session
-# # def ws_disconnect(message, room_name):
+# # def ws_disconnect(message, room_id):
 # # 	print("hhhhhhhhhh")
-# # 	print("disconnect ",room_name)
-# # 	Group("chat-%s" % room_name).discard(message.reply_channel)
+# # 	print("disconnect ",room_id)
+# # 	Group("chat-%s" % room_id).discard(message.reply_channel)
 
 # from channels import Group
 
@@ -95,9 +95,9 @@
 
 # # Connected to websocket.connect
 # @channel_session
-# def ws_connect(message, room_name):
+# def ws_connect(message, room_id):
 # 	# Accept connection
-# 	print(room_name)
+# 	print(room_id)
 # 	message.reply_channel.send({"accept": True})
 # 	# Parse the query string
 # 	params = parse_qs(message.content["query_string"])
@@ -105,8 +105,8 @@
 # 		# Set the username in the session
 # 		print("user found")
 # 		message.channel_session["username"] = params[b"username"][0].decode("utf8")
-# 		# Add the user to the room_name group
-# 		Group("chat-%s" % room_name).add(message.reply_channel)
+# 		# Add the user to the room_id group
+# 		Group("chat-%s" % room_id).add(message.reply_channel)
 # 	else:
 # 		# Close the connection.
 # 		print("not found user")
@@ -114,9 +114,9 @@
 
 # # Connected to websocket.receive
 # @channel_session
-# def ws_message(message, room_name):
+# def ws_message(message, room_id):
 # 	print("in mess")
-# 	Group("chat-%s" % room_name).send({
+# 	Group("chat-%s" % room_id).send({
 # 		"text": json.dumps({
 # 			"text": message["text"],
 # 			"username": message.channel_session["username"],
@@ -125,9 +125,9 @@
 
 # # Connected to websocket.disconnect
 # @channel_session
-# def ws_disconnect(message, room_name):
+# def ws_disconnect(message, room_id):
 # 	print("in disconnect")
-# 	Group("chat-%s" % room_name).discard(message.reply_channel)
+# 	Group("chat-%s" % room_id).discard(message.reply_channel)
 
 
 
@@ -138,18 +138,18 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 
 # Connected to websocket.connect
 @channel_session_user_from_http
-def ws_connect(message,room_name):
+def ws_connect(message,room_id):
 	# Accept connection
 	print("in connect")
 	message.reply_channel.send({"accept": True})
 	# Add them to the right group
-	Group("chat-%s" % room_name).add(message.reply_channel)
+	Group("chat-%s" % room_id).add(message.reply_channel)
 
 # Connected to websocket.receive
 @channel_session_user
-def ws_message(message,room_name):
+def ws_message(message,room_id):
 	print("in mess")
-	Group("chat-%s" % room_name).send({
+	Group("chat-%s" % room_id).send({
 		"text": json.dumps(
 			{
 				"textMessage" : message["text"],
@@ -161,6 +161,6 @@ def ws_message(message,room_name):
 
 # Connected to websocket.disconnect
 @channel_session_user
-def ws_disconnect(message,room_name):
+def ws_disconnect(message,room_id):
 	print("in discon")
-	Group("chat-%s" % room_name).discard(message.reply_channel)
+	Group("chat-%s" % room_id).discard(message.reply_channel)
