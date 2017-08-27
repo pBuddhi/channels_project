@@ -1,3 +1,5 @@
+<!-- https://code.tutsplus.com/tutorials/how-to-create-a-simple-web-based-chat-application--net-5931 -->
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -10,7 +12,7 @@
 <div id="wrapper">
     <div id="menu">
         <p class="welcome">Welcome, <b></b></p>
-        <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+        <p class="logout"><a id="exit" href="{% url 'home' %}">Exit Chat</a></p>
         <div style="clear:both"></div>
     </div>
      
@@ -31,19 +33,18 @@
 
 			var message = $("<div size=100>"+data_dict["sender"]+": "+data_dict["textMessage"]+"</div><br/>");
 			$("#chatbox").append(message);
+			var elem = document.getElementById('chatbox');
+  			elem.scrollTop = elem.scrollHeight;
+  			// $("#chatbox").scrollTop($("#chatbox").height());
 		    //alert(e.data);
 		}
 		$("#submitmsg").on("click",function(){
 			console.log("heyy in click");
 			var msg = $('#usermsg').val();
+			$('#usermsg').val("");
 			console.log(msg);
 			socket.send(msg);
 		});
-		// socket.onopen = function() {
-		//     socket.send("hello world");
-		// }
-		// Call onopen directly if socket is already open
-		//if (socket.readyState == WebSocket.OPEN) socket.onopen();
 	</script>
 </body>
 </html>
