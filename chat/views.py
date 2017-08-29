@@ -11,7 +11,7 @@ def room_view(request,room_id):
 	# Get a list of rooms, ordered alphabetically
 	print("room")
 	room = Room.objects.get(pk=room_id)
-	last_ten = Message.objects.order_by('-id')[:50]
+	last_ten = Message.objects.filter(room=room).order_by('-id')[:50]
 	last_ten_in_ascending_order = reversed(last_ten)
 	# Render that in the index template
 	return render(request, "chat/room.html",{'room':room,'messages':last_ten_in_ascending_order})
