@@ -135,6 +135,7 @@ import json
 from channels import Channel, Group
 from channels.sessions import channel_session
 from channels.auth import channel_session_user, channel_session_user_from_http
+from .models import Message,Room
 
 # Connected to websocket.connect
 @channel_session_user_from_http
@@ -158,6 +159,9 @@ def ws_message(message,room_id):
 			),
 
 	})
+	room = Room.objects.get(pk=room_id);
+	user = message.user
+	message_obj = Message.objects.create(title=message["text"],room=room,user=user)
 
 # Connected to websocket.disconnect
 @channel_session_user

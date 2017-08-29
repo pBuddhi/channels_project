@@ -16,13 +16,19 @@
         <div style="clear:both"></div>
     </div>
      
-    <div id="chatbox"></div>
-     
+    <div id="chatbox">
+    	 {% for message in messages %}
+     	
+     	<div size=100>{{message.user.username}}: {{message.title}}</div><br/>
+     {% endfor %}
+    </div>
+   
     <!-- <form name="message"> -->
         <input name="usermsg" type="text" id="usermsg" size="63" />
         <input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
         <!-- <button  name="submitmsg"  id="submitmsg" value="Send" >submit</button> -->
    <!--  </form> -->
+
 </div>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -45,6 +51,10 @@
 			console.log(msg);
 			socket.send(msg);
 		});
+		window.onbeforeunload = function() {
+    // socket.onclose = function () {}; // disable onclose handler first
+    socket.close();
+};
 	</script>
 </body>
 </html>
